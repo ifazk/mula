@@ -13,4 +13,4 @@
  (name mula)
  (synopsis "ML's library for Universal Levenshtein Automata")
  (description "ML's radishal library for matching with Universal Levenshtein Automata.")
- (depends ))
+ (depends (ppx_inline_test :with-test)))
