@@ -4,18 +4,19 @@
 
     Some nice computational properties of the (not-deterministic) automata include:
     - There are no epsilon transitions.
-    - The automata are computable on demand, there is no need to store states and transitions in a datastructure.
+    - The automata are computable on demand, there is no need to store states and transitions in a data structure.
     - The states of the automata carry error counts.
-    - There is a simple subsumption relation that prunes sets of states.
+    - There is a simple subsumption relation that prunes sets of states, so transitions produce small sets of states.
 
     These allow for efficient implementation together with interesting uses.
     {ol
       {- We not only know if two strings are within a certain edit distance, but
          we also know what the edit distance is if they are within the edit
+         distance limit.}
+      {- If several strings are compared, we can rank them by their edit
          distance.}
-      {- If several strings are compared, we rank them by their edit distance.}
-      {- We lazily feed characters and string fragments to the atomata and get
-         the current error count.}
+      {- We can lazily feed characters and string fragments to the atomata and
+         get the current error count.}
     }
     *)
 
@@ -108,7 +109,7 @@ module Make (St : S) :
         val feed_str : nfa_state -> str:St.t -> nfa_state
 
         (** [get_distance ~k str1 str2] computes the edit distance between two
-            strings. It creats an atomaton with limit [k] and [str1], and then
+            strings. It creates an atomaton with limit [k] and [str1], and then
             feeds it the string [str2], and thet outputs the result of calling
             [end_input] on the nfa. *)
         val get_distance : k:int -> St.t -> St.t -> int option
@@ -146,7 +147,7 @@ module Make (St : S) :
         val feed_str : nfa_state -> str:St.t -> nfa_state
 
         (** [get_distance ~k str1 str2] computes the edit distance between two
-            strings. It creats an atomaton with limit [k] and [str1], and then
+            strings. It creates an atomaton with limit [k] and [str1], and then
             feeds it the string [str2], and thet outputs the result of calling
             [end_input] on the nfa. *)
         val get_distance : k:int -> St.t -> St.t -> int option

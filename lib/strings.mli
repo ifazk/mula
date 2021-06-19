@@ -38,7 +38,7 @@ module Lev : sig
   val feed_str : nfa_state -> str:string -> nfa_state
 
   (** [get_distance ~k str1 str2] computes the edit distance between two
-      strings. It creats an atomaton with limit [k] and [str1], and then feeds
+      strings. It creates an atomaton with limit [k] and [str1], and then feeds
       it the string [str2], and thet outputs the result of calling [end_input]
       on the nfa. *)
   val get_distance : k:int -> string -> string -> int option
@@ -73,7 +73,7 @@ module Dem : sig
   val feed_str : nfa_state -> str:string -> nfa_state
 
   (** [get_distance ~k str1 str2] computes the edit distance between two
-      strings. It creats an atomaton with limit [k] and [str1], and then feeds
+      strings. It creates an atomaton with limit [k] and [str1], and then feeds
       it the string [str2], and thet outputs the result of calling [end_input]
       on the nfa. *)
   val get_distance : k:int -> string -> string -> int option
