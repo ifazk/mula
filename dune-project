@@ -6,6 +6,8 @@
 (authors "Ifaz Kabir")
 (maintainers "Ifaz Kabir")
 (source (github ifazk/mula))
+(documentation https://ifazk.github.io/mula/)
+(version 0.1.0)
 
 (package
  (name mula)
