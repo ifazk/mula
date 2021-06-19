@@ -96,7 +96,7 @@ module MakeMatcher (St : S) (NFA : NFA_t) = struct
     else
       {nfa = NFA.StateSet.start; k; str; str_len = St.length str; fed_so_far = 0 }
 
-  let feed {nfa;k;str;str_len;fed_so_far} ch =
+  let feed {nfa;k;str;str_len;fed_so_far} ~ch =
     let index = fed_so_far + 1 in
     if NFA.StateSet.is_err nfa
       || index > str_len + k then
@@ -134,7 +134,7 @@ module MakeMatcher (St : S) (NFA : NFA_t) = struct
     (* TODO early exit *)
     let len = St.length str in
     BitVec.pos_fold
-    ~f:(fun n nfa -> feed nfa (St.get str (len - n)))
+    ~f:(fun n nfa -> feed nfa ~ch:(St.get str (len - n)))
     ~init:nfa_state
     len
 

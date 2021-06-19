@@ -88,7 +88,7 @@ module Make (St : S) :
 
         (** [feed nfa ch] produces a new state where the atomaton has been fed
             the character [ch]. *)
-        val feed : nfa_state -> St.ch -> nfa_state
+        val feed : nfa_state -> ch:St.ch -> nfa_state
 
         (** [current_error nfa] produces [Some n] if the current error count
             recorded by the nfa is a number [n], or [None] if the error count is
@@ -126,7 +126,7 @@ module Make (St : S) :
 
         (** [feed nfa ch] produces a new state where the atomaton has been fed
             the character [ch]. *)
-        val feed : nfa_state -> St.ch -> nfa_state
+        val feed : nfa_state -> ch:St.ch -> nfa_state
 
         (** [current_error nfa] produces [Some n] if the current error count
             recorded by the nfa is a number [n], or [None] if the error count is
