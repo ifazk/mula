@@ -139,10 +139,18 @@ module MakeMatcher (St : S) (NFA : NFA_t) = struct
     len
 
   let get_distance ~k str1 str2 =
-    let start = start ~k ~str:str1 in
-    let end_ = feed_str start ~str:str2 in
-    let cost = end_input end_ in
-    cost
+    let len_diff =
+      let len1 = St.length str1 in
+      let len2 = St.length str2 in
+      Int.abs (len1 - len2)
+    in
+    if len_diff > k then
+      None
+    else
+      let start = start ~k ~str:str1 in
+      let end_ = feed_str start ~str:str2 in
+      let cost = end_input end_ in
+      cost
 end
 
 module Make (St : S) = struct
