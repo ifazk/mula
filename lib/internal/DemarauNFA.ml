@@ -49,7 +49,7 @@ module StateSet = struct
 
   let pp_states ppf s =
     Format.fprintf ppf "{@[%a@]}"
-    (Format.pp_print_seq ~pp_sep:pp_comma State.pp_state) (to_seq s)
+    (Format.pp_print_list ~pp_sep:pp_comma State.pp_state) (to_seq s |> List.of_seq)
 
 end
 

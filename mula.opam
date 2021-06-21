@@ -12,8 +12,8 @@ doc: "https://ifazk.github.io/mula/"
 bug-reports: "https://github.com/ifazk/mula/issues"
 depends: [
   "dune" {>= "2.8"}
-  "ocaml" {>= "4.12"}
-  "ppx_inline_test"
+  "ocaml" {>= "4.08.1"}
+  "ppx_inline_test" {with-test}
   "odoc" {with-doc}
 ]
 build: [
