@@ -28,7 +28,26 @@ let snoc_one (Bits n) =
   let n' = Int.logor Int.one (Int.shift_left n 1) in
   Bits n'
 
+let snoc_ones (Bits n) ~m =
+  if m >= Sys.int_size then
+    Bits (Int.minus_one)
+  else
+    let one_m_zeros = Int.shift_left Int.one m in
+    let m_ones = one_m_zeros - 1 in
+    let n' = Int.logor m_ones (Int.shift_left n m) in
+    Bits n'
+
+let ones ~m =
+  snoc_ones (Bits Int.zero) ~m
+
 let snoc_zero (Bits n) =
   Bits (Int.shift_left n 1)
+
+let snoc_zeros (Bits n) ~m =
+  if m >= Sys.int_size then
+    Bits (Int.zero)
+  else
+    let n' = Int.shift_left n m in
+    Bits n'
 
 let zero = (Bits Int.zero)

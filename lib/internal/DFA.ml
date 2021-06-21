@@ -40,8 +40,7 @@ module DFA = struct
         build_transitions dula t (n + 1) max
     in
     let BitVec.(Bits max) =
-      let open BitVec in
-      pos_fold ~f:(fun _n acc -> snoc_one acc) ~init:(Bits 0) (dula.k * 2 + 1)
+      BitVec.ones ~m:(dula.k * 2 + 1)
     in
     build_transitions dula t 0 max
 
