@@ -8,15 +8,15 @@
 
 module Lev : sig
 
-  (** Abstract type for the state of the atomata. *)
+  (** Abstract type for the state of the automata. *)
   type nfa_state
 
-  (** [start ~k ~str] produces the starting state of the atomaton for edit
+  (** [start ~k ~str] produces the starting state of the automaton for edit
       distance [k].  Here [k] must not be negative and must not be greater
       [(Sys.int_size - 1) / 2]. *)
   val start : k:int -> str:string -> nfa_state
 
-  (** [feed nfa ch] produces a new state where the atomaton has been fed the
+  (** [feed nfa ch] produces a new state where the automaton has been fed the
       character [ch]. *)
   val feed : nfa_state -> ch:char -> nfa_state
 
@@ -33,12 +33,12 @@ module Lev : sig
       with, and [None] otherwise. *)
   val end_input : nfa_state -> int option
 
-  (** [feed_str nfa ~str] produces a new state where the atomaton has been fed
+  (** [feed_str nfa ~str] produces a new state where the automaton has been fed
       the characters from the string [str]. *)
   val feed_str : nfa_state -> str:string -> nfa_state
 
   (** [get_distance ~k str1 str2] computes the edit distance between two
-      strings. It creates an atomaton with limit [k] and [str1], and then feeds
+      strings. It creates an automaton with limit [k] and [str1], and then feeds
       it the string [str2], and thet outputs the result of calling [end_input]
       on the nfa. *)
   val get_distance : k:int -> string -> string -> int option
@@ -46,12 +46,12 @@ end
 module Dem : sig
   type nfa_state
 
-  (** [start ~k ~str] produces the starting state of the atomaton for edit
+  (** [start ~k ~str] produces the starting state of the automaton for edit
       distance [k].  Here [k] must not be negative and must not be greater
       [(Sys.int_size - 1) / 2]. *)
   val start : k:int -> str:string -> nfa_state
 
-  (** [feed nfa ch] produces a new state where the atomaton has been fed the
+  (** [feed nfa ch] produces a new state where the automaton has been fed the
       character [ch]. *)
   val feed : nfa_state -> ch:char -> nfa_state
 
@@ -68,12 +68,12 @@ module Dem : sig
       with, and [None] otherwise. *)
   val end_input : nfa_state -> int option
 
-  (** [feed_str nfa ~str] produces a new state where the atomaton has been fed
+  (** [feed_str nfa ~str] produces a new state where the automaton has been fed
       the characters from the string [str]. *)
   val feed_str : nfa_state -> str:string -> nfa_state
 
   (** [get_distance ~k str1 str2] computes the edit distance between two
-      strings. It creates an atomaton with limit [k] and [str1], and then feeds
+      strings. It creates an automaton with limit [k] and [str1], and then feeds
       it the string [str2], and thet outputs the result of calling [end_input]
       on the nfa. *)
   val get_distance : k:int -> string -> string -> int option

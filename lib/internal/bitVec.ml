@@ -51,3 +51,6 @@ let snoc_zeros (Bits n) ~m =
     Bits n'
 
 let zero = (Bits Int.zero)
+
+let pp_bv ppf (Bits n)=
+  Format.fprintf ppf "%o" n

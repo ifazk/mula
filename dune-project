@@ -11,6 +11,6 @@
 
 (package
  (name mula)
- (synopsis "ML's library for Universal Levenshtein Automata")
- (description "ML's radishal library for matching with Universal Levenshtein Automata.")
+ (synopsis "ML's Universal Levenshtein Automata library")
+ (description "ML's radishal Universal Levenshtein Automata library.")
  (depends (ocaml (>= 4.08.1)) (ppx_inline_test :with-test)))

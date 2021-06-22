@@ -15,7 +15,7 @@
          distance limit.}
       {- If several strings are compared, we can rank them by their edit
          distance.}
-      {- We can lazily feed characters and string fragments to the atomata and
+      {- We can lazily feed characters and string fragments to the automata and
          get the current error count.}
     }
     *)
@@ -79,14 +79,14 @@ module Make (St : S) :
       module Lev : sig
         (** {1 Standard Universal Levenshtein Automaton} *)
 
-        (** Abstract type for the state of the atomata. *)
+        (** Abstract type for the state of the automata. *)
         type nfa_state
 
-        (** [start ~k ~str] produces the starting state of the atomaton for edit distance [k].
+        (** [start ~k ~str] produces the starting state of the automaton for edit distance [k].
             Here [k] must not be negative and must not be greater [(Sys.int_size - 1) / 2]. *)
         val start : k:int -> str:St.t -> nfa_state
 
-        (** [feed nfa ch] produces a new state where the atomaton has been fed
+        (** [feed nfa ch] produces a new state where the automaton has been fed
             the character [ch]. *)
         val feed : nfa_state -> ch:St.ch -> nfa_state
 
@@ -104,12 +104,12 @@ module Make (St : S) :
             automaton was started with, and [None] otherwise. *)
         val end_input : nfa_state -> int option
 
-        (** [feed_str nfa ~str] produces a new state where the atomaton has been fed
+        (** [feed_str nfa ~str] produces a new state where the automaton has been fed
             the characters from the string [str]. *)
         val feed_str : nfa_state -> str:St.t -> nfa_state
 
         (** [get_distance ~k str1 str2] computes the edit distance between two
-            strings. It creates an atomaton with limit [k] and [str1], and then
+            strings. It creates an automaton with limit [k] and [str1], and then
             feeds it the string [str2], and thet outputs the result of calling
             [end_input] on the nfa. *)
         val get_distance : k:int -> St.t -> St.t -> int option
@@ -117,14 +117,14 @@ module Make (St : S) :
       module Dem : sig
         (** {1 Universal Demarau-Levenshtein Automaton} *)
 
-        (** Abstract type for the state of the atomata. *)
+        (** Abstract type for the state of the automata. *)
         type nfa_state
 
-        (** [start ~k ~str] produces the starting state of the atomaton for edit distance [k].
+        (** [start ~k ~str] produces the starting state of the automaton for edit distance [k].
             Here [k] must not be negative and must not be greater [(Sys.int_size - 1) / 2]. *)
         val start : k:int -> str:St.t -> nfa_state
 
-        (** [feed nfa ch] produces a new state where the atomaton has been fed
+        (** [feed nfa ch] produces a new state where the automaton has been fed
             the character [ch]. *)
         val feed : nfa_state -> ch:St.ch -> nfa_state
 
@@ -142,12 +142,12 @@ module Make (St : S) :
             automaton was started with, and [None] otherwise. *)
         val end_input : nfa_state -> int option
 
-        (** [feed_str nfa ~str] produces a new state where the atomaton has been fed
+        (** [feed_str nfa ~str] produces a new state where the automaton has been fed
             the characters from the string [str]. *)
         val feed_str : nfa_state -> str:St.t -> nfa_state
 
         (** [get_distance ~k str1 str2] computes the edit distance between two
-            strings. It creates an atomaton with limit [k] and [str1], and then
+            strings. It creates an automaton with limit [k] and [str1], and then
             feeds it the string [str2], and thet outputs the result of calling
             [end_input] on the nfa. *)
         val get_distance : k:int -> St.t -> St.t -> int option
