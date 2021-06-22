@@ -20,6 +20,8 @@ module StateSet = struct
   match s1, s2 with
   | Std {lane = l1; error = e1}, Std {lane = l2; error = e2} ->
     (e1 < e2) && (l1 + e1 - e2 <= l2 && l2 <= l1 + e2 - e1)
+  | Std {lane = l1; error = e1}, Trans {lane = l2; error = e2} ->
+    l2 = l1 + 1 && e2 = e1 + 1
   | _ -> false
 
   let not_subsumed_by x y =
