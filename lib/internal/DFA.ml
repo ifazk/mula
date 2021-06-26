@@ -1,22 +1,22 @@
-open NFA
+module NFA = LevNFA
 
 module NFAStateSetSet = struct
   include Set.Make(NFA.StateSet)
 
   let pp_states_set ppf s =
     Format.fprintf ppf "{@[%a@]}"
-    (Format.pp_print_list ~pp_sep:StateSet.pp_comma StateSet.pp_states) (to_seq s |> List.of_seq)
+    (Format.pp_print_list ~pp_sep:NFA.StateSet.pp_comma NFA.StateSet.pp_states) (to_seq s |> List.of_seq)
 end
 
 module NFAStateSetMap = struct
   include Map.Make(NFA.StateSet)
 
   let pp_kv_pair ~pp_val ppf (k,v) =
-    Format.fprintf ppf "@[%a ->@ %a@]" StateSet.pp_states k pp_val v
+    Format.fprintf ppf "@[%a ->@ %a@]" NFA.StateSet.pp_states k pp_val v
 
   let pp_map ~pp_val ppf map =
     Format.fprintf ppf "{@[%a@]}"
-    (Format.pp_print_list ~pp_sep:StateSet.pp_comma (pp_kv_pair ~pp_val)) (to_seq map |> List.of_seq)
+    (Format.pp_print_list ~pp_sep:NFA.StateSet.pp_comma (pp_kv_pair ~pp_val)) (to_seq map |> List.of_seq)
 end
 
 module Transitions = struct
@@ -27,7 +27,7 @@ module Transitions = struct
 
   let pp_map ~pp_val ppf map =
     Format.fprintf ppf "[@[%a@]]"
-    (Format.pp_print_list ~pp_sep:StateSet.pp_comma (pp_kv_pair ~pp_val)) (to_seq map |> List.of_seq)
+    (Format.pp_print_list ~pp_sep:NFA.StateSet.pp_comma (pp_kv_pair ~pp_val)) (to_seq map |> List.of_seq)
 end
 
 module DFA = struct

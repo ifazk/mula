@@ -96,6 +96,6 @@ module MakeMatcher (St : S) (NFA : NFA_t) = struct
 end
 
 module Make (St : S) = struct
-  module Lev = MakeMatcher (St) (NFA)
+  module Lev = MakeMatcher (St) (LevNFA)
   module Dem = MakeMatcher (St) (DemarauNFA)
 end
