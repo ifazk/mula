@@ -1,2 +1,55 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"><head><title>index (mula.index)</title><link rel="stylesheet" href="../odoc.css"/><meta charset="utf-8"/><meta name="generator" content="odoc 1.5.2"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><script src="../highlight.pack.js"></script><script>hljs.initHighlightingOnLoad();</script></head><body><div class="content"><header><nav><a href="../index.html">Up</a> – mula</nav><h1 id="mula-index"><a href="#mula-index" class="anchor"></a>mula index</h1><nav class="toc"><ul><li><a href="#library-mula">Library mula</a></li><li><a href="#library-mula.internal">Library mula.internal</a></li></ul></nav></header><h2 id="library-mula"><a href="#library-mula" class="anchor"></a>Library mula</h2><p>The entry point of this library is the module: <a href="Mula/index.html"><code>Mula</code></a>.</p><h2 id="library-mula.internal"><a href="#library-mula.internal" class="anchor"></a>Library mula.internal</h2><p>The entry point of this library is the module: <a href="Internal/index.html"><code>Internal</code></a>.</p></div></body></html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>index (mula.index)</title><link rel="stylesheet" href="../odoc.css"/><meta charset="utf-8"/><meta name="generator" content="odoc 1.5.2"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><script src="../highlight.pack.js"></script><script>hljs.initHighlightingOnLoad();</script></head><body><div class="content"><header><nav><a href="../index.html">Up</a> – mula</nav><h1 id="mula"><a href="#mula" class="anchor"></a>mula</h1><p>ML's radishal library for matching with Universal Levenshtein Automata.</p><nav class="toc"><ul><li><a href="#library-mula">Library mula</a></li><li><a href="#basic-concepts">Basic Concepts</a></li><li><a href="#functionality">Functionality</a></li><li><a href="#examples">Examples</a><ul><li><a href="#getting-edit-distances">Getting Edit Distances</a></li><li><a href="#live-minimal-error-counts">Live Minimal Error Counts</a></li><li><a href="#live-minimal-error-counts">Live Minimal Error Counts</a></li></ul></li></ul></nav></header><h2 id="library-mula"><a href="#library-mula" class="anchor"></a>Library mula</h2><p>The entry point of this library is the module: <a href="Mula/index.html"><code>Mula</code></a>.</p><h2 id="basic-concepts"><a href="#basic-concepts" class="anchor"></a>Basic Concepts</h2><p>This library provides functions and functors to quickly compute Levenshtein edit distances of strings from a base string within a limit <code>k</code>. This can be used for fuzzy-string matching.</p><p>The Levenshtein distance from a string <code>s1</code> to a string <code>s2</code> is the minimum number of character edits (insert, delete, substitute) operations needed to change <code>s1</code> into <code>s2</code>. We support both the standard Levenshtein distance as well as the (restricted) Demarau-Levenshtein distance, which includes transpositions of two adjacent characters as a edit operation.</p><h2 id="functionality"><a href="#functionality" class="anchor"></a>Functionality</h2><p>The <a href="Mula/Strings/index.html"><code>Mula.Strings</code></a> module provides functions for working with OCaml strings directly, and the <a href="Mula/Match/index.html"><code>Mula.Match</code></a> module provides functors for working with your own representation of strings.</p><p>The libary offers two ways of working with strings. You can use the <code>get_distance</code> function to directly compute edit distances, or you can create a an automata using the <code>start</code> function to create an automata and feed characters and substrings into it lazily. The latter approach allows you to get the live minimum error counts.</p><p>The <a href="Mula/Strings/index.html"><code>Mula.Strings</code></a> module (and the functors created by <a href="Mula/Match/Make/index.html"><code>Mula.Match.Make</code></a>) contains submodules <a href="Mula/Strings/Lev/index.html"><code>Mula.Strings.Lev</code></a> for the standard Levenshtein distance and <a href="Mula/Strings/Dem/index.html"><code>Mula.Strings.Dem</code></a> for the (restricted) Demarau-Levenshtein distance. If you are unsure of which to use, use <a href="Mula/Strings/Dem/index.html"><code>Mula.Strings.Dem</code></a>.</p><h2 id="examples"><a href="#examples" class="anchor"></a>Examples</h2><h3 id="getting-edit-distances"><a href="#getting-edit-distances" class="anchor"></a>Getting Edit Distances</h3><pre><code class="ml"># #require &quot;mula&quot;;;
+# Mula.Strings.Dem.get_distance ~k:2 &quot;abcd&quot; &quot;abdc&quot;;;
+- : int option = Some 1
+# Mula.Strings.Lev.get_distance ~k:2 &quot;abcd&quot; &quot;abdc&quot;;;
+- : int option = Some 2
+# Mula.Strings.Lev.get_distance ~k:2 &quot;abcd&quot; &quot;efgh&quot;;;
+- : int option = None</code></pre><h3 id="live-minimal-error-counts"><a href="#live-minimal-error-counts" class="anchor"></a>Live Minimal Error Counts</h3><p>Examples of lazily feeding characters and into an automaton and getting live error counts:</p><pre><code class="ml"># #require &quot;mula&quot;;;
+# (* Create an automaton for a limit and base string *);;
+# module Lev = Mula.Strings.Lev;;
+# let lev_nfa = Lev.start ~k:2 ~str:&quot;abcd&quot;;;
+val lev_nfa : Lev.nfa_state = &lt;abstr&gt;
+# (* Get live error counts after feeding some characters into automaton *);;
+# Lev.(feed_str lev_nfa ~str:&quot;ab&quot; |&gt; current_error);;
+- : int option = Some 0
+# Lev.(feed lev_nfa ~ch:'a' |&gt; feed ~ch:'b' |&gt; feed ~ch:'c' |&gt; current_error);;
+- : int option = Some 0
+# Lev.(feed_str lev_nfa ~str:&quot;abd&quot; |&gt; current_error);;
+- : int option = Some 1
+# Lev.(feed_str lev_nfa ~str:&quot;ab&quot; |&gt; feed_str ~str:&quot;dc&quot; |&gt; current_error);;
+- : int option = Some 1
+# (* End input to get edit distance *);;
+# Lev.(feed_str lev_nfa ~str:&quot;ab&quot; |&gt; feed_str ~str:&quot;dc&quot; |&gt; end_input);;
+- : int option = Some 2</code></pre><h3 id="live-minimal-error-counts"><a href="#live-minimal-error-counts" class="anchor"></a>Live Minimal Error Counts</h3><p>The last two examples show that the live error count can be lower than the edit distance. In the first of the two examples, <code>'d'</code> is counted as a possible insert edit. In the second of the two examples, <code>'d'</code> and <code>'c'</code> are both counted as substitution edits.</p><p>Example of using the <a href="Mula/Match/Make/index.html"><code>Mula.Match.Make</code></a> functor:</p><pre><code class="ml"># #require &quot;mula&quot;;;
+# module St = struct
+  type ch = int
+  type t = int array
+
+  let length = Array.length
+  let get = Array.get
+
+  let equal = Int.equal
+end;;
+module St :
+  sig
+    ...
+  end
+# module M = Mula.Match.Make(St);;
+module M :
+  sig
+    module Lev :
+      sig
+        type nfa_state = Mula.Match.Make(St).Lev.nfa_state
+        val start : k:int -&gt; str:St.t -&gt; nfa_state
+        val feed : nfa_state -&gt; ch:int -&gt; nfa_state
+        val current_error : nfa_state -&gt; int option
+        val end_input : nfa_state -&gt; int option
+        val feed_str : nfa_state -&gt; str:St.t -&gt; nfa_state
+        val get_distance : k:int -&gt; St.t -&gt; St.t -&gt; int option
+      end
+    module Dem :
+      sig
+        ...
+      end
+  end</code></pre></div></body></html>
