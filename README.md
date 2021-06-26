@@ -4,6 +4,8 @@ ML's radishal library for matching with Universal Levenshtein Automata.
 This library not only computes if strings are within a certain edit distance,
 but also computes what the edit distance is.
 
+You can find documentation for the library [here](https://ifazk.github.io/mula/).
+
 We support both the standard Levenshtein distance as well as the
 Demarau-Levenshtein distance which includes transpositions of two adjacent
 characters as a primitive edit operation.

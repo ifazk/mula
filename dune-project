@@ -7,7 +7,7 @@
 (maintainers "Ifaz Kabir")
 (source (github ifazk/mula))
 (documentation https://ifazk.github.io/mula/)
-(version 0.1.1)
+(version unreleased)
 
 (package
  (name mula)

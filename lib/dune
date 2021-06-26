@@ -3,3 +3,4 @@
  (public_name mula)
  (libraries mula.internal)
  )
+(documentation (package mula))

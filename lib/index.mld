@@ -1,0 +1,120 @@
+{0 mula}
+ML's radishal library for matching with Universal Levenshtein Automata.
+
+{1 Library mula}
+The entry point of this library is the module:
+{!module-Mula}.
+
+{1 Basic Concepts}
+
+This library provides functions and functors to quickly compute Levenshtein edit
+distances of strings from a base string within a limit [k].
+This can be used for fuzzy-string matching.
+
+The Levenshtein distance from a string [s1] to a string [s2] is the minimum
+number of character edits (insert, delete, substitute) operations needed to
+change [s1] into [s2].
+We support both the standard Levenshtein distance as well as the
+(restricted) Demarau-Levenshtein distance, which includes transpositions of two
+adjacent characters as a edit operation.
+
+{1 Functionality}
+
+The {!module-Mula.Strings} module provides functions for working with OCaml
+strings directly, and the {!module-Mula.Match} module provides functors for
+working with your own representation of strings.
+
+The libary offers two ways of working with strings.
+You can use the [get_distance] function to directly compute edit distances, or
+you can create a an automata using the [start] function to create an automata
+and feed characters and substrings into it lazily.
+The latter approach allows you to get the live minimum error counts.
+
+The {!module-Mula.Strings} module (and the functors created by
+{!module-Mula.Match.Make}) contains submodules {!module-Mula.Strings.Lev} for
+the standard Levenshtein distance and {!module-Mula.Strings.Dem} for the
+(restricted) Demarau-Levenshtein distance.
+If you are unsure of which to use, use {!module-Mula.Strings.Dem}.
+
+{1 Examples}
+
+{2 Getting Edit Distances}
+
+{[
+# #require "mula";;
+# Mula.Strings.Dem.get_distance ~k:2 "abcd" "abdc";;
+- : int option = Some 1
+# Mula.Strings.Lev.get_distance ~k:2 "abcd" "abdc";;
+- : int option = Some 2
+# Mula.Strings.Lev.get_distance ~k:2 "abcd" "efgh";;
+- : int option = None
+]}
+
+{2 Live Minimal Error Counts}
+Examples of lazily feeding characters and into an automaton and getting live
+error counts:
+
+{[
+# #require "mula";;
+# (* Create an automaton for a limit and base string *);;
+# module Lev = Mula.Strings.Lev;;
+# let lev_nfa = Lev.start ~k:2 ~str:"abcd";;
+val lev_nfa : Lev.nfa_state = <abstr>
+# (* Get live error counts after feeding some characters into automaton *);;
+# Lev.(feed_str lev_nfa ~str:"ab" |> current_error);;
+- : int option = Some 0
+# Lev.(feed lev_nfa ~ch:'a' |> feed ~ch:'b' |> feed ~ch:'c' |> current_error);;
+- : int option = Some 0
+# Lev.(feed_str lev_nfa ~str:"abd" |> current_error);;
+- : int option = Some 1
+# Lev.(feed_str lev_nfa ~str:"ab" |> feed_str ~str:"dc" |> current_error);;
+- : int option = Some 1
+# (* End input to get edit distance *);;
+# Lev.(feed_str lev_nfa ~str:"ab" |> feed_str ~str:"dc" |> end_input);;
+- : int option = Some 2
+]}
+
+{2 Live Minimal Error Counts}
+
+The last two examples show that the live error count can be lower than the edit
+distance.
+In the first of the two examples, ['d'] is counted as a possible insert edit.
+In the second of the two examples, ['d'] and ['c'] are both counted as
+substitution edits.
+
+Example of using the {!module-Mula.Match.Make} functor:
+
+{[
+# #require "mula";;
+# module St = struct
+  type ch = int
+  type t = int array
+
+  let length = Array.length
+  let get = Array.get
+
+  let equal = Int.equal
+end;;
+module St :
+  sig
+    ...
+  end
+# module M = Mula.Match.Make(St);;
+module M :
+  sig
+    module Lev :
+      sig
+        type nfa_state = Mula.Match.Make(St).Lev.nfa_state
+        val start : k:int -> str:St.t -> nfa_state
+        val feed : nfa_state -> ch:int -> nfa_state
+        val current_error : nfa_state -> int option
+        val end_input : nfa_state -> int option
+        val feed_str : nfa_state -> str:St.t -> nfa_state
+        val get_distance : k:int -> St.t -> St.t -> int option
+      end
+    module Dem :
+      sig
+        ...
+      end
+  end
+]}
