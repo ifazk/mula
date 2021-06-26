@@ -21,7 +21,7 @@ val lev_nfa : Lev.nfa_state = &lt;abstr&gt;
 - : int option = Some 1
 # (* End input to get edit distance *);;
 # Lev.(feed_str lev_nfa ~str:&quot;ab&quot; |&gt; feed_str ~str:&quot;dc&quot; |&gt; end_input);;
-- : int option = Some 2</code></pre><h3 id="live-minimal-error-counts"><a href="#live-minimal-error-counts" class="anchor"></a>Live Minimal Error Counts</h3><p>The last two examples show that the live error count can be lower than the edit distance. In the first of the two examples, <code>'d'</code> is counted as a possible insert edit. In the second of the two examples, <code>'d'</code> and <code>'c'</code> are both counted as substitution edits.</p><p>Example of using the <a href="Mula/Match/Make/index.html"><code>Mula.Match.Make</code></a> functor:</p><pre><code class="ml"># #require &quot;mula&quot;;;
+- : int option = Some 2</code></pre><p>The last two examples show that the live error count can be lower than the edit distance. In the first of the two examples, <code>'d'</code> is counted as a possible insert edit. In the second of the two examples, <code>'d'</code> and <code>'c'</code> are both counted as substitution edits.</p><h3 id="live-minimal-error-counts"><a href="#live-minimal-error-counts" class="anchor"></a>Live Minimal Error Counts</h3><p>Example of using the <a href="Mula/Match/Make/index.html"><code>Mula.Match.Make</code></a> functor:</p><pre><code class="ml"># #require &quot;mula&quot;;;
 # module St = struct
   type ch = int
   type t = int array
