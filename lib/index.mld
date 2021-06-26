@@ -74,13 +74,13 @@ val lev_nfa : Lev.nfa_state = <abstr>
 - : int option = Some 2
 ]}
 
-{2 Live Minimal Error Counts}
-
 The last two examples show that the live error count can be lower than the edit
 distance.
 In the first of the two examples, ['d'] is counted as a possible insert edit.
 In the second of the two examples, ['d'] and ['c'] are both counted as
 substitution edits.
+
+{2 Live Minimal Error Counts}
 
 Example of using the {!module-Mula.Match.Make} functor:
 
