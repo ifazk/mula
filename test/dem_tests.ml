@@ -82,6 +82,28 @@ let%test "no triangle inequality" =
   get_distance ~k:4 "abcd" "bdac"
   = Some 4
 
+(* A delete followed by a transposition has the same error count as a substututione *)
+
+let%test "2 deletes then transposition match" =
+  get_distance ~k:4 "abcdef" "aedf"
+  = Some 3
+
+let%test "2 deletes then transposition" =
+  get_distance ~k:4 "abcd" "dc"
+  = Some 3
+
+let%test "1 delete then transposition" =
+  get_distance ~k:4 "abc" "cb"
+  = Some 2
+
+let%test "1 substitution then 1 delete" =
+  get_distance ~k:4 "abc" "cb"
+  = Some 2
+
+let%test "1 substitution then 1 delete then match" =
+  get_distance ~k:4 "abcd" "cbd"
+  = Some 2
+
 (* empty *)
 let%test "empty-empty" =
   get_distance ~k:1 "" "" = Some 0

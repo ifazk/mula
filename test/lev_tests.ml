@@ -93,3 +93,7 @@ let%test "k=0 empty-a" =
 
 let%test "k=0 a-empty" =
   get_distance ~k:0 "a" "" = None
+
+let%test "delete match match insert match" =
+  get_distance ~k:4 "abdc" "bdac"
+  = Some 2

@@ -52,5 +52,17 @@ let snoc_zeros (Bits n) ~m =
 
 let zero = (Bits Int.zero)
 
+let one = (Bits Int.one)
+
+let non_zero (Bits x) = not (Int.equal Int.zero x)
+
+let logor (Bits x) (Bits y) = Bits (Int.logor x y)
+
+let logand (Bits x) (Bits y) = Bits (Int.logand x y)
+
+let shift_right_logical (Bits x) n = Bits (Int.shift_right_logical x n)
+
+let shift_left (Bits x) n = Bits (Int.shift_left x n)
+
 let pp_bv ppf (Bits n)=
   Format.fprintf ppf "%o" n

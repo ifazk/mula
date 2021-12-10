@@ -40,7 +40,7 @@ module StateSet = struct
     else
       Some min_cost
 
-  let start : t = singleton (State.Std {lane = 0; error = 0})
+  let start ~k:_ : t = singleton (State.Std {lane = 0; error = 0})
 
   let err : t = empty
 

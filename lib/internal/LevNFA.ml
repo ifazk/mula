@@ -38,7 +38,7 @@ module StateSet = struct
     else
       Some min_cost
 
-  let start : t = singleton (Lane 0, Err 0)
+  let start ~k:_ : t = singleton (Lane 0, Err 0)
 
   let err : t = empty
 
