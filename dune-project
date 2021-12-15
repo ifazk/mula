@@ -12,5 +12,15 @@
 (package
  (name mula)
  (synopsis "ML's Universal Levenshtein Automata library")
- (description "ML's radishal Universal Levenshtein Automata library.")
+ (description
+   "\| ML's radishal Universal Levenshtein Automata library.
+   "\| This allows checking if a string is within a given edit
+   "\| distance of another string.
+   "\| The library supports both the Levenshtein distance and
+   "\| the Demarau-Levenshtein.
+   "\|
+   "\| The library can be used for fuzzy string searching or
+   "\| approximate string matching, but does not provide these
+   "\| facilities out of the box.
+ )
  (depends (ocaml (>= 4.08.1)) (ppx_inline_test :with-test)))
