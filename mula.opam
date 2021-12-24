@@ -16,6 +16,19 @@ facilities out of the box.
 maintainer: ["Ifaz Kabir"]
 authors: ["Ifaz Kabir"]
 license: "CC0-1.0"
+tags: [
+  "levenshtein"
+  "demarau-levenshtein"
+  "automaton"
+  "typo"
+  "edit"
+  "distance"
+  "approximate"
+  "fuzzy"
+  "string"
+  "search"
+  "matching"
+]
 homepage: "https://github.com/ifazk/mula"
 doc: "https://ifazk.github.io/mula/"
 bug-reports: "https://github.com/ifazk/mula/issues"
@@ -40,4 +53,3 @@ build: [
   ]
 ]
 dev-repo: "git+https://github.com/ifazk/mula.git"
-tags: [ "levenshtein" "demarau-levenshtein" "automaton" "typo" "edit" "distance" "approximate" "fuzzy" "string" "search" "matching" ]

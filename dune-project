@@ -23,4 +23,5 @@
    "\| approximate string matching, but does not provide these
    "\| facilities out of the box.
  )
+ (tags ("levenshtein" "demarau-levenshtein" "automaton" "typo" "edit" "distance" "approximate" "fuzzy" "string" "search" "matching"))
  (depends (ocaml (>= 4.08.1)) (ppx_inline_test :with-test)))
